@@ -14,4 +14,15 @@ class UserMapper {
                 user.getBirthdate(),
                 user.getEmail());
     }
+
+    UserDto toSimpleDto(User user) {
+        return new UserDto(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                null,
+                null
+        );
+    }
+
 }
