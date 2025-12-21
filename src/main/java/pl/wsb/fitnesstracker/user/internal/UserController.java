@@ -1,5 +1,7 @@
 package pl.wsb.fitnesstracker.user.internal;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserDto;
@@ -48,15 +50,15 @@ class UserController {
                 .toList();
     }
 
-    @GetMapping("/email/{email}")
-    public List<UserDto> getUserByEmailIgnoreCase(@PathVariable String email) {
+    @GetMapping("/email")
+    public List<UserDto> getUserByEmailIgnoreCase(@RequestParam String email) {
         return userService.getUserByEmailIgnoreCase(email)
                 .stream()
                 .map(userMapper::toDto)
                 .toList();
     }
     @GetMapping("/onlyemail/{email}")
-    public List<UserDto> getOnlyIDByEmailIgnoreCase(@PathVariable String email) {
+    public List<UserDto> getOnlyIDByEmailIgnoreCase(@RequestParam String email) {
         return userService.getUserByEmailIgnoreCase(email)
                 .stream()
                 .map(userMapper::toEmailDto)
@@ -73,10 +75,11 @@ class UserController {
 
 
     @PostMapping("/createUser")
-    public UserDto addUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         User createdUser = userService.createUser(user);
-        return userMapper.toDto(createdUser);
+        //return userMapper.toDto(createdUser);
+        return new ResponseEntity<UserDto>(userMapper.toDto(createdUser), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
