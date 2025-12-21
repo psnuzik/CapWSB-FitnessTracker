@@ -1,8 +1,7 @@
 package pl.wsb.fitnesstracker.user.internal;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserDto;
 
 import java.util.List;
@@ -40,6 +39,60 @@ class UserController {
                 .map(userMapper::toSimpleDto)
                 .toList();
     }
+
+    @GetMapping("/{id}")
+    public List<UserDto> getUserByID(@PathVariable long id) {
+        return userService.getUser(id)
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
+    @GetMapping("/email/{email}")
+    public List<UserDto> getUserByEmailIgnoreCase(@PathVariable String email) {
+        return userService.getUserByEmailIgnoreCase(email)
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+    @GetMapping("/onlyemail/{email}")
+    public List<UserDto> getOnlyIDByEmailIgnoreCase(@PathVariable String email) {
+        return userService.getUserByEmailIgnoreCase(email)
+                .stream()
+                .map(userMapper::toEmailDto)
+                .toList();
+    }
+
+    @GetMapping("/older/{age}")
+    public List<UserDto> getUserByAgeGreaterThan(@PathVariable int age) {
+        return userService.getUsersOlderThan(age)
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
+
+    @PostMapping("/createUser")
+    public UserDto addUser(@RequestBody UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
+        User createdUser = userService.createUser(user);
+        return userMapper.toDto(createdUser);
+    }
+
+    @PutMapping("/{id}")
+    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        User user = userMapper.toEntity(userDto);
+        user.setId(id);
+        User updatedUser = userService.updateUser(user);
+        return userMapper.toDto(updatedUser);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+    }
+
+
 
 
 

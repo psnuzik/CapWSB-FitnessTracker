@@ -28,6 +28,35 @@ class UserServiceImpl implements UserService, UserProvider {
     }
 
     @Override
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    @Override
+    public User updateUser(final User updatedUser) {
+        return userRepository.findById(updatedUser.getId())
+                .map(existingUser -> {
+                    // Aktualizujemy tylko proste pola tekstowe/daty
+                    existingUser.setFirstName(updatedUser.getFirstName());
+                    existingUser.setLastName(updatedUser.getLastName());
+                    existingUser.setEmail(updatedUser.getEmail());
+                    existingUser.setBirthdate(updatedUser.getBirthdate());
+
+                    return userRepository.save(existingUser);
+                }).orElseThrow(() -> new IllegalArgumentException("User with ID " + updatedUser.getId() + " not found!"));
+
+        /*
+        if (user.getId() == null) {
+            throw new IllegalArgumentException("User ID not specified!");
+        }
+        if (!userRepository.existsById(user.getId())) {
+            throw new IllegalArgumentException("User with ID " + user.getId() + " not found!");
+        }
+
+        return userRepository.save(user);*/
+    }
+
+    @Override
     public Optional<User> getUser(final Long userId) {
         return userRepository.findById(userId);
     }
@@ -36,6 +65,13 @@ class UserServiceImpl implements UserService, UserProvider {
     public Optional<User> getUserByEmail(final String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public List<User> getUserByEmailIgnoreCase(final String email) { return userRepository.findByEmailIngoreCase(email); }
+
+
+    @Override
+    public List<User> getUsersOlderThan(final int age) { return userRepository.findOlderThan(age) ;}
 
     @Override
     public List<User> findAllUsers() {

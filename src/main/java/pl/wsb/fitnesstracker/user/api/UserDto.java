@@ -11,4 +11,3 @@ public record UserDto(@Nullable Long id, String firstName, String lastName,
 
 }
 
-

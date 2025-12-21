@@ -25,4 +25,24 @@ class UserMapper {
         );
     }
 
+    UserDto toEmailDto(User user) {
+        return new UserDto(
+                user.getId(),
+                null,
+                null,
+                null,
+                user.getEmail()
+        );
+    }
+
+    User toEntity(UserDto userDto) {
+        return new User(
+                userDto.firstName(),
+                userDto.lastName(),
+                userDto.birthdate(),
+                userDto.email()
+        );
+
+    }
+
 }
