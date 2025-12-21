@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserDto;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * UserController is responsible for handling HTTP requests related to user operations.
@@ -43,11 +45,11 @@ class UserController {
     }
 
     @GetMapping("/{id}")
-    public List<UserDto> getUserByID(@PathVariable long id) {
+    public Optional<UserDto> getUserByID(@PathVariable long id) {
         return userService.getUser(id)
                 .stream()
                 .map(userMapper::toDto)
-                .toList();
+                .findFirst();
     }
 
     @GetMapping("/email")
@@ -66,8 +68,8 @@ class UserController {
     }
 
     @GetMapping("/older/{age}")
-    public List<UserDto> getUserByAgeGreaterThan(@PathVariable int age) {
-        return userService.getUsersOlderThan(age)
+    public List<UserDto> getUserByAgeGreaterThan(@PathVariable LocalDate Date) {
+        return userService.getUsersOlderThan(Date)
                 .stream()
                 .map(userMapper::toDto)
                 .toList();

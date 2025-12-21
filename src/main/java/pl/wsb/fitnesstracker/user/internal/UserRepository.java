@@ -30,10 +30,12 @@ interface UserRepository extends JpaRepository<User, Long> {
 
     }
 
-    default List<User> findOlderThan(int age) {
+    default List<User> findOlderThan(LocalDate Date) {
         return findAll().stream()
-                .filter(user -> Period.between(user.getBirthdate(), LocalDate.now()).getYears() > age)
+                .filter(user -> user.getBirthdate().isBefore(Date))
                 .toList();
     }
 
 }
+
+//Period.between(user.getBirthdate(), LocalDate.now()).getYears() > age)
