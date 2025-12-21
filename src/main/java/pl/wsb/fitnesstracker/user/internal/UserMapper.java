@@ -52,7 +52,7 @@ class UserMapper {
     /**
      * Bean representing user with all of the related
      * @param userDto user object
-     * @return UserDTO
+     * @return User
      */
     User toEntity(UserDto userDto) {
         return new User(

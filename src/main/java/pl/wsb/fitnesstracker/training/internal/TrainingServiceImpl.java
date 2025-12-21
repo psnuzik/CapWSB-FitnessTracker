@@ -5,6 +5,9 @@ import pl.wsb.fitnesstracker.training.api.TrainingProvider;
 
 import java.util.Optional;
 
+/**
+ * Service implementation providing trainings
+ */
 // TODO: Provide Implementation and correct the return type of the method getTraining
 public class TrainingServiceImpl implements TrainingProvider {
 
