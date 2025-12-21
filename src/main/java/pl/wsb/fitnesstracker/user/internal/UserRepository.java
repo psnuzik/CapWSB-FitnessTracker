@@ -23,6 +23,11 @@ interface UserRepository extends JpaRepository<User, Long> {
                 .findFirst();
     }
 
+    /**
+     * Query providing all users by email
+     * @param email email address
+     * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
+     */
     default List<User> findByEmailIngoreCase(String email) {
         return findAll().stream()
                 .filter(user -> user.getEmail().toLowerCase().contains(email.toLowerCase()))
@@ -30,6 +35,11 @@ interface UserRepository extends JpaRepository<User, Long> {
 
     }
 
+    /**
+     * Query providing user older than by provided date
+     * @param Date
+     * @return
+     */
     default List<User> findOlderThan(LocalDate Date) {
         return findAll().stream()
                 .filter(user -> user.getBirthdate().isBefore(Date))

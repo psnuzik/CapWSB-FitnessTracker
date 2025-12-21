@@ -1,3 +1,18 @@
+/**
+ * Definition of entity User reflecting the table users
+ *
+ * @param  id        primary key of the table, unique identifier of the record
+ * @param  firstName first name of the user
+ * @param  lastName  surname of the user
+ * @param  birthday  user's date of birth
+ * @param  email     email address of the user
+ * @param  trainings reflection of dependency towards trainings table
+ * @param  statistics reflection of collected statistics
+ * @param  healthmetrics reflection of collected healthmetrics
+ * @param  userevent reflection of collected userevent
+ * @return      entity Users
+ * @see         UserRepository
+ */
 package pl.wsb.fitnesstracker.user.api;
 
 import jakarta.annotation.Nullable;

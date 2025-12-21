@@ -5,6 +5,14 @@ import jakarta.annotation.Nullable;
 
 import java.time.LocalDate;
 
+/**
+ * Representation of Data Transfer Object reflecting the user entity with the details.
+ * @param id
+ * @param firstName
+ * @param lastName
+ * @param birthdate
+ * @param email
+ */
 public record UserDto(@Nullable Long id, String firstName, String lastName,
                       @JsonFormat(pattern = "yyyy-MM-dd") LocalDate birthdate,
                       String email) {
