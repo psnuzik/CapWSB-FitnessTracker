@@ -7,6 +7,7 @@ import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserDto;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,10 +68,10 @@ class UserController {
                 .toList();
     }
 
-    @GetMapping("/older/{age}")
-    public List<UserDto> getUserByAgeGreaterThan(@PathVariable String Date) {
-
-        return userService.getUsersOlderThan(LocalDate.parse(Date))
+    @GetMapping("/older/{date}")
+    public List<UserDto> getUserByAgeGreaterThan(@PathVariable String date) {
+        LocalDate beforeDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        return userService.getUsersOlderThan(beforeDate)
                 .stream()
                 .map(userMapper::toDto)
                 .toList();
