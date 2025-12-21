@@ -68,8 +68,9 @@ class UserController {
     }
 
     @GetMapping("/older/{age}")
-    public List<UserDto> getUserByAgeGreaterThan(@PathVariable LocalDate Date) {
-        return userService.getUsersOlderThan(Date)
+    public List<UserDto> getUserByAgeGreaterThan(@PathVariable String Date) {
+
+        return userService.getUsersOlderThan(LocalDate.parse(Date))
                 .stream()
                 .map(userMapper::toDto)
                 .toList();
@@ -93,8 +94,9 @@ class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public ResponseEntity deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 
 
